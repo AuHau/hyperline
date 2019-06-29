@@ -15,7 +15,7 @@ To install, edit `~/.hyper.js` and add `"hyperline"` to `plugins`:
 
 ```
 plugins: [
-  "hyperline",
+  "hyperline-auhau",
 ],
 ```
 
