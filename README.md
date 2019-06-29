@@ -1,6 +1,8 @@
 HyperLine
 =========
 
+**This is fork of the original plugin as it became not-maintained and which contains work of several members as well other improvements** 
+
 **HyperLine is a status line plugin for [Hyper.app](https://hyper.is/)**. It shows you useful system information such as free memory, uptime and CPU usage.
 
 ![Screenshot](./screenshot.png)
@@ -28,11 +30,11 @@ Add the names of plugins in the order in which you would like them to be display
 ```
 config: {                                                                      
   hyperline: {                                                                 
-    plugins: [                                                                 
-      "ip",                                                                    
-      "cpu",                                                                   
-      "spotify"                                                                
-    ]                                                                          
+    plugins: {                                                                 
+      "ip": 'l', // Align to left                                                                   
+      "cpu": 'r', // Align to right                                                                   
+      "spotify": 'c' // Align to center                                                                
+    }                                                                         
   },
 }
 ```

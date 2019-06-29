@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import HyperLine from './lib/core/hyperline'
-import { getColorList } from './lib/utils/colors'
+import {getColorList} from './lib/utils/colors'
 import hyperlinePlugins from './lib/plugins'
 
-export function reduceUI(state, { type, config }) {
+export function reduceUI (state, { type, config }) {
   switch (type) {
     case 'CONFIG_LOAD':
     case 'CONFIG_RELOAD': {
@@ -17,7 +17,7 @@ export function reduceUI(state, { type, config }) {
   return state
 }
 
-export function mapHyperState({ ui: { colors, fontFamily, hyperline } }, map) {
+export function mapHyperState ({ ui: { colors, fontFamily, hyperline } }, map) {
   let userPlugins = []
   if (hyperline !== undefined) {
     if (hyperline.plugins !== undefined) {
@@ -32,7 +32,7 @@ export function mapHyperState({ ui: { colors, fontFamily, hyperline } }, map) {
   })
 }
 
-function pluginsByName(plugins) {
+function pluginsByName (plugins) {
   const dict = {}
   plugins.forEach((plugin) => {
     dict[plugin.displayName()] = plugin
@@ -41,60 +41,60 @@ function pluginsByName(plugins) {
   return dict
 }
 
-function filterPluginsByConfig(plugins) {
+function filterPluginsByConfig (plugins) {
   const config = window.config.getConfig().hyperline
   if (!config) return plugins
 
-  const userPluginNames = config.plugins
-  if (!userPluginNames) {
+  const userPlugins = config.plugins
+  if (!userPlugins) {
     return plugins
   }
 
   plugins = pluginsByName(plugins)
   const filtered = []
 
-  userPluginNames.forEach((name) => {
-    if (plugins.hasOwnProperty(name)) {
-      filtered.push(plugins[name])
+  for (let pluginName in userPlugins) {
+    if (plugins.hasOwnProperty(pluginName)) {
+      filtered.push({ component: plugins[pluginName], alignment: userPlugins[pluginName] })
     }
-  })
+  }
 
   return filtered
 }
 
-export function decorateHyperLine(HyperLine) {
+export function decorateHyperLine (HyperLine) {
   return class extends Component {
-    static displayName() {
+    static displayName () {
       return 'HyperLine'
     }
 
-    static propTypes() {
+    static propTypes () {
       return {
         plugins: PropTypes.array.isRequired
       }
     }
 
-    static get defaultProps() {
+    static get defaultProps () {
       return {
         plugins: []
       }
     }
 
-    render() {
+    render () {
       const plugins = [...this.props.plugins, ...hyperlinePlugins]
 
-      return <HyperLine {...this.props} plugins={filterPluginsByConfig(plugins)} />
+      return <HyperLine {...this.props} plugins={filterPluginsByConfig(plugins)}/>
     }
   }
 }
 
-export function decorateTerm(Term, { notify }) {
+export function decorateTerm (Term, { notify }) {
   return class extends Component {
-    static displayName() {
+    static displayName () {
       return 'Hyper'
     }
 
-    static propTypes() {
+    static propTypes () {
       return {
         colors: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
         fontFamily: PropTypes.string,
@@ -102,15 +102,15 @@ export function decorateTerm(Term, { notify }) {
       }
     }
 
-    render() {
+    render () {
       const customChildren = (
         <div>
           {this.props.customChildren}
-          <HyperLine notify={notify} style={{ fontFamily: this.props.fontFamily }} />
+          <HyperLine notify={notify} style={{ fontFamily: this.props.fontFamily }}/>
         </div>
       )
 
-      return <Term {...this.props} customChildren={customChildren} />
+      return <Term {...this.props} customChildren={customChildren}/>
     }
   }
 }
