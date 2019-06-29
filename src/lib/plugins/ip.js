@@ -6,7 +6,7 @@ import { writeSync as writeClipboard } from 'clipboardy'
 
 function getIp() {
   return new Promise(resolve => {
-    publicIp.v4().then(ip => resolve(ip)).catch(() => resolve('?.?.?.?'))
+    publicIp.v4({https: true, timeout: 800}).then(ip => resolve(ip)).catch(() => resolve('?.?.?.?'))
   })
 }
 
